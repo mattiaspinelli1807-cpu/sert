@@ -126,7 +126,7 @@
   <!-- Ingresso -->
   <div id="join">
     <div class="card">
-      <div class="logo">ðŸŽ™ï¸</div>
+      <div class="logo">🎙️</div>
       <h1>Sert</h1>
       <p>Parla con i tuoi amici. Audio, video e chat.</p>
       <label for="name">Come ti chiami</label>
@@ -143,8 +143,8 @@
     <aside class="sidebar">
       <div class="side-head"><span class="dot"></span><span id="roomLabel">stanza</span></div>
       <div class="side-body">
-        <div class="channel">ðŸ”Š <span>Generale</span></div>
-        <div class="members-h">In voce â€” <span id="memCount">1</span></div>
+        <div class="channel">🔊 <span>Generale</span></div>
+        <div class="members-h">In voce — <span id="memCount">1</span></div>
         <div id="members"></div>
       </div>
       <div class="userbar">
@@ -155,25 +155,25 @@
             <div class="substatus">In linea</div>
           </div>
         </div>
-        <button id="micBtn" class="iconbtn" title="Microfono">ðŸŽ¤</button>
-        <button id="camBtn" class="iconbtn" title="Webcam">ðŸ“¹</button>
-        <button id="leaveBtn" class="iconbtn leave" title="Esci">âï¸</button>
+        <button id="micBtn" class="iconbtn" title="Microfono">🎤</button>
+        <button id="camBtn" class="iconbtn" title="Webcam">📹</button>
+        <button id="leaveBtn" class="iconbtn leave" title="Esci">⏏️</button>
       </div>
     </aside>
 
     <!-- Centro -->
     <div class="content">
       <div class="topbar">
-        ðŸ”Š <span class="ch">Generale</span>
+        🔊 <span class="ch">Generale</span>
         <span class="sep">|</span>
         <span class="desc">Canale vocale di Sert</span>
         <span class="spacer"></span>
-        <button id="chatBtn" class="iconbtn" title="Mostra/nascondi chat">ðŸ’¬</button>
+        <button id="chatBtn" class="iconbtn" title="Mostra/nascondi chat">💬</button>
       </div>
       <div class="stage">
         <div class="videos" id="videos"></div>
         <div id="chat">
-          <div class="chat-h">ðŸ’¬ Chat</div>
+          <div class="chat-h">💬 Chat</div>
           <div id="messages"></div>
           <form id="chatForm">
             <input id="chatInput" placeholder="Scrivi un messaggio..." autocomplete="off" />
@@ -200,7 +200,7 @@ const RTC_CONFIG = {
 let ws, myId = null, myName = "";
 let localStream = null;
 const peers = new Map();   // peerId -> { pc, tile, video, audioCtx }
-const names = new Map();   // peerId -> nome (cosÃ¬ non compaiono come "Amico")
+const names = new Map();   // peerId -> nome (così non compaiono come "Amico")
 let micOn = true, camOn = true, chatVisible = true;
 
 const $ = (id) => document.getElementById(id);
@@ -257,7 +257,7 @@ async function onSignalMessage(ev) {
   }
   else if (msg.type === "peer-joined") {
     names.set(msg.id, msg.name);
-    sysMessage(`${msg.name} Ã¨ entrato.`);
+    sysMessage(`${msg.name} è entrato.`);
     const pc = createPeer(msg.id);
     const offer = await pc.createOffer();
     await pc.setLocalDescription(offer);
@@ -316,7 +316,7 @@ function removePeer(peerId) {
     peers.delete(peerId);
   }
   const name = names.get(peerId);
-  if (name) sysMessage(`${name} Ã¨ uscito.`);
+  if (name) sysMessage(`${name} è uscito.`);
   names.delete(peerId);
   renderMembers();
 }
@@ -330,7 +330,7 @@ function addTile(id, label, stream, muted) {
   const video = document.createElement("video");
   video.autoplay = true; video.playsInline = true; video.muted = muted; video.srcObject = stream;
   const name = document.createElement("div"); name.className = "name"; name.textContent = label;
-  const badge = document.createElement("div"); badge.className = "badge"; badge.textContent = "ðŸ”‡";
+  const badge = document.createElement("div"); badge.className = "badge"; badge.textContent = "🔇";
   tile.append(video, name, badge);
   $("videos").appendChild(tile);
   return { tile, video };
@@ -374,14 +374,14 @@ function watchSpeaking(peerId, stream) {
 $("micBtn").addEventListener("click", () => {
   micOn = !micOn;
   localStream.getAudioTracks().forEach((t) => (t.enabled = micOn));
-  $("micBtn").textContent = micOn ? "ðŸŽ¤" : "ðŸ”‡";
+  $("micBtn").textContent = micOn ? "🎤" : "🔇";
   $("micBtn").classList.toggle("off", !micOn);
   $("tile-me").classList.toggle("muted", !micOn);
 });
 $("camBtn").addEventListener("click", () => {
   camOn = !camOn;
   localStream.getVideoTracks().forEach((t) => (t.enabled = camOn));
-  $("camBtn").textContent = camOn ? "ðŸ“¹" : "ðŸš«";
+  $("camBtn").textContent = camOn ? "📹" : "🚫";
   $("camBtn").classList.toggle("off", !camOn);
 });
 $("chatBtn").addEventListener("click", () => {
