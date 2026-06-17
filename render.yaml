@@ -1,0 +1,9 @@
+# Configurazione "Blueprint" per Render.com (piano gratuito).
+# Su Render: New -> Blueprint -> collega il repo che contiene questi file.
+services:
+  - type: web
+    name: parla-con-gli-amici
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python server.py
